@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>jQuery Status Service Consumer</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script> 
+</head>
+<body>
+
+    <h1>jQuery Status Service Consumer</h1>
+    <p>Attempting to call Spring service at: <code>http://localhost:8081/status</code></p>
+    
+    <div class="data-display">
+        <h2>Service Response</h2>
+        <p>Status: <span id="status_display">---</span></p>
+        <p>Server Time: <span id="server_time">---</span></p>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            // Define the NEW URL of the REST service on port 8081
+            const serviceUrl = 'http://localhost:8081/status';
+
+            $.ajax({
+                url: serviceUrl,
+                type: 'GET',
+                dataType: 'json',
+                
+                success: function(data) {
+                    $('#status_display').text("SUCCESS! Data Fetched via jQuery AJAX: " + data.status).css('color', 'green');
+                    
+                    // Display the new fields
+                    $('#server_time').text(data.serverTime);
+                    
+                    console.log("Data received:", data);
+                },
+                
+                error: function(jqXHR, textStatus, errorThrown) {
+                    $('#status_display').text(`FAILURE: ${textStatus} - ${errorThrown}`).css('color', 'red');
+                    console.error("AJAX Error:", textStatus, errorThrown, jqXHR);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

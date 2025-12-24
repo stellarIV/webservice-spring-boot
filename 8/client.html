@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CORS Client Test</title>
+</head>
+<body>
+    <h1>CORS Test Client</h1>
+    <p>Status: <span id="status">Waiting...</span></p>
+    <p>Response ID: <span id="id"></span></p>
+    <p>Response Content: <span id="content"></span></p>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const statusElement = document.getElementById('status');
+            const idElement = document.getElementById('id');
+            const contentElement = document.getElementById('content');
+            
+            statusElement.textContent = "Fetching data...";
+
+            // The Spring service is running on port 8080
+            fetch('http://localhost:8080/greeting?name=CORS_Tester')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Success! This proves the CORS headers were accepted by the browser.
+                    statusElement.textContent = "SUCCESS! CORS Allowed.";
+                    statusElement.style.color = "green";
+                    idElement.textContent = data.id;
+                    contentElement.textContent = data.content;
+                })
+                .catch(error => {
+                    // Failure: This would happen if the server did NOT send the proper CORS headers
+                    statusElement.textContent = "FAILURE: Could not fetch data. Check browser console for CORS error.";
+                    statusElement.style.color = "red";
+                    console.error('Fetch error:', error);
+                });
+        });
+    </script>
+</body>
+</html>
