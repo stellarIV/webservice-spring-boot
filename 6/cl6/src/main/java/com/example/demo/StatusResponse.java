@@ -1,4 +1,3 @@
-// src/main/java/com/example/demo/StatusResponse.java
 package com.example.demo;
 
 import java.time.LocalDateTime;

@@ -28,7 +28,6 @@ import com.example.demo.model.Person;
 @RequestMapping("/persons")
 public class PersonController {
 
-    // simple in-memory store for demo
     private final Map<Long, Person> storage = new ConcurrentHashMap<>();
 
     public PersonController() {
@@ -41,7 +40,7 @@ public class PersonController {
         storage.put(7L, new Person(2L, "Yonas", "Johnson", "Yonani@example.com" , "IT", 72000.0));
     }
 
-    // GET /persons -> collection with links
+    // GET /persons
     @GetMapping
     public CollectionModel<EntityModel<Person>> all() {
         List<EntityModel<Person>> list = new ArrayList<>();
@@ -55,7 +54,7 @@ public class PersonController {
                 linkTo(methodOn(PersonController.class).all()).withSelfRel());
     }
 
-    // GET /persons/{id} -> single resource with self + collection link
+    // GET /persons/{id} 
     @GetMapping("/{id}")
     public EntityModel<Person> one(@PathVariable Long id) {
         Person p = Optional.ofNullable(storage.get(id))
@@ -65,7 +64,7 @@ public class PersonController {
                 linkTo(methodOn(PersonController.class).all()).withRel("persons"));
     }
 
-    // POST /persons -> create and return 201 with Location header (HATEOAS-friendly)
+    // POST /persons
     @PostMapping
     public ResponseEntity<?> create(@RequestBody Person person) {
         long id = storage.keySet().stream().mapToLong(Long::longValue).max().orElse(0L) + 1;
@@ -81,7 +80,7 @@ public class PersonController {
                 .body(resource);
     }
 
-    // PUT /persons/{id} -> update
+    // PUT /persons/{id}
     @PutMapping("/{id}")
     public ResponseEntity<?> update(@PathVariable Long id, @RequestBody Person incoming) {
         Person existing = storage.get(id);

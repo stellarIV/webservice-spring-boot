@@ -1,4 +1,3 @@
-// src/main/java/com/example/demo/WebConfig.java
 package com.example.demo;
 
 import org.springframework.context.annotation.Configuration;
@@ -10,7 +9,7 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/status") // Mapping changed to /status
+        registry.addMapping("/status")
             .allowedOrigins("http://localhost:9001", "http://127.0.0.1:9001", "null")
             .allowedMethods("GET")
             .allowedHeaders("*");

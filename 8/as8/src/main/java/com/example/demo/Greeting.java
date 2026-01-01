@@ -1,4 +1,3 @@
-// src/main/java/com/example/demo/Greeting.java
 package com.example.demo;
 
 public class Greeting {
